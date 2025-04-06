@@ -66,6 +66,14 @@ class StyledTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(content, style: style);
+    return Text(
+      content.toUpperCase(),
+      style: Theme.of(context).textTheme.labelMedium!.merge(
+        TextStyle(
+          fontWeight: FontWeight.w900,
+          color: Colors.grey[600],
+        ).merge(style),
+      ),
+    );
   }
 }
