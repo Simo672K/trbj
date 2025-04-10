@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trbj/src/features/init/presentation/init_screen/init_screen.dart';
+import 'package:trbj/src/routing/router.dart';
 import 'package:trbj/src/theme/app_theme.dart';
 
 class App extends StatelessWidget {
@@ -7,10 +7,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: appTheme,
-      home: InitScreen(),
+      routerConfig: appRouter,
     );
   }
 }

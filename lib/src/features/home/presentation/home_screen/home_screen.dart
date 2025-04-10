@@ -10,8 +10,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Column(
