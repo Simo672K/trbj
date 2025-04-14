@@ -2,7 +2,7 @@ class ClientModel {
   final String name;
   final String phoneNumber;
   final String email;
-  final String? createdAt;
+  final String createdAt;
 
   const ClientModel(this.name, this.phoneNumber, this.email, this.createdAt);
 

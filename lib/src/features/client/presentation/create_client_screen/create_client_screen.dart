@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trbj/src/features/client/domain/client_form_data_provider.dart';
 import 'package:trbj/src/features/client/domain/client_model.dart';
 import 'package:trbj/src/features/client/presentation/widgets/input_field.dart';
 import 'package:trbj/src/features/home/presentation/widgets/section_title.dart';
 import 'package:trbj/src/features/home/presentation/widgets/text_widget.dart';
 import 'package:trbj/src/utils/validator.dart';
 
-class CreateClientScreen extends StatelessWidget {
+class CreateClientScreen extends ConsumerWidget {
   CreateClientScreen({super.key});
 
   final _clientDataForm = GlobalKey<FormState>();
@@ -13,16 +15,26 @@ class CreateClientScreen extends StatelessWidget {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-  _handelFormSubmit() {
-    if (_clientDataForm.currentState!.validate()) {
-      ClientModel clientModel = ClientModel(
-        _nameController.text,
-        _phoneNumberController.text,
-        _emailController.text,
-        '',
-      );
-      print(clientModel);
-    }
+  VoidCallback _handelFormSubmit(BuildContext context, WidgetRef ref) {
+    return () {
+      if (_clientDataForm.currentState!.validate()) {
+        ClientModel clientModel = ClientModel(
+          _nameController.text,
+          _phoneNumberController.text,
+          _emailController.text,
+          '',
+        );
+        ref.read(clientsProvider.notifier).addClient(clientModel);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Client added successfully'),
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 2),
+          ),
+        );
+        _clearForm();
+      }
+    };
   }
 
   _clearForm() {
@@ -33,7 +45,7 @@ class CreateClientScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -111,7 +123,7 @@ class CreateClientScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 4),
                       FilledButton.icon(
-                        onPressed: _handelFormSubmit,
+                        onPressed: _handelFormSubmit(context, ref),
                         style: FilledButton.styleFrom(
                           backgroundColor: Colors.green,
                         ),

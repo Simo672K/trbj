@@ -41,6 +41,7 @@ class ClientScreen extends StatelessWidget {
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(top: 24),
+                padding: EdgeInsets.only(top: 8),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
