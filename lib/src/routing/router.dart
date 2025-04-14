@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trbj/src/features/client/presentation/client_screen/client_screen.dart';
+import 'package:trbj/src/features/client/presentation/create_client_screen/create_client_screen.dart';
 import 'package:trbj/src/features/employee/presentation/employee_screen/employee_screen.dart';
 import 'package:trbj/src/features/home/presentation/home_screen/home_screen.dart';
 import 'package:trbj/src/routing/navigation_bar/nav_bar.dart';
@@ -46,6 +47,10 @@ final GoRouter appRouter = GoRouter(
                   const NoTransitionPage(child: SettingsScreen()),
         ),
       ],
+    ),
+    GoRoute(
+      path: '/create_client',
+      builder: (context, state) => CreateClientScreen(),
     ),
   ],
 );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:trbj/src/features/client/presentation/widgets/clients_data_table.dart';
 import 'package:trbj/src/features/home/presentation/widgets/text_widget.dart';
 import 'package:trbj/src/features/search/presentation/widgets/search_field.dart';
@@ -26,7 +27,9 @@ class ClientScreen extends StatelessWidget {
                 StyledTitle("Lista de clientes."),
                 Spacer(),
                 FilledButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.push('/create_client');
+                  },
                   style: FilledButton.styleFrom(
                     textStyle: TextStyle(fontSize: 14),
                   ),

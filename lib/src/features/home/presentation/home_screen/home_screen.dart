@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trbj/src/features/home/presentation/widgets/home_overview_card.dart';
 import 'package:trbj/src/features/home/presentation/widgets/operation_record_card.dart';
+import 'package:trbj/src/features/home/presentation/widgets/section_title.dart';
 import 'package:trbj/src/features/home/presentation/widgets/text_widget.dart';
 import 'package:trbj/src/features/home/presentation/widgets/transactions_record.dart';
 import 'package:trbj/src/theme/app_theme.dart';
@@ -37,12 +38,9 @@ class HomeScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              Row(
-                children: [
-                  Icon(Icons.info_outline, size: 16, color: Colors.grey[600]),
-                  SizedBox(width: 4),
-                  StyledTitle("Inicio y informaciones."),
-                ],
+              SectionTitle(
+                icon: Icons.info_outline,
+                title: "Inicio y informaciones.",
               ),
               SizedBox(height: 12),
               Row(
@@ -91,18 +89,8 @@ class HomeScreen extends StatelessWidget {
               Divider(indent: 36, endIndent: 36),
 
               SizedBox(height: 16),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.description_outlined,
-                    size: 16,
-                    color: Colors.grey[600],
-                  ),
-                  SizedBox(width: 4),
-                  StyledTitle("Nóminas"),
-                ],
-              ),
+              SectionTitle(icon: Icons.description_outlined, title: "Nóminas"),
+
               SizedBox(height: 12),
               OperationRecordCard(),
               SizedBox(height: 16),
@@ -116,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                   Icon(Icons.history, size: 16, color: Colors.grey[600]),
                   SizedBox(width: 4),
                   StyledTitle("operaciones recientes"),
-                  Expanded(child: SizedBox()),
+                  Spacer(),
                   TextButton(
                     onPressed: () {},
                     child: Text(

@@ -77,3 +77,41 @@ class StyledTitle extends StatelessWidget {
     );
   }
 }
+
+class StyledScreenTitle extends StatelessWidget {
+  const StyledScreenTitle(this.content, {super.key, this.style});
+  final String content;
+  final TextStyle? style;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      content.toUpperCase(),
+      style: Theme.of(context).textTheme.labelLarge!.merge(
+        TextStyle(
+          fontWeight: FontWeight.w900,
+          color: Colors.grey[700],
+        ).merge(style),
+      ),
+    );
+  }
+}
+
+class StyledLabel extends StatelessWidget {
+  const StyledLabel(this.content, {super.key, this.style});
+  final String content;
+  final TextStyle? style;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      content.toUpperCase(),
+      style: Theme.of(context).textTheme.labelSmall!.merge(
+        TextStyle(
+          fontWeight: FontWeight.w900,
+          color: Colors.grey[700],
+        ).merge(style),
+      ),
+    );
+  }
+}
