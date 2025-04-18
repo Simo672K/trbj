@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trbj/src/features/client/domain/client_dao.dart';
 import 'package:trbj/src/features/client/domain/client_model.dart';
 
 class ClientsState {
@@ -31,20 +32,15 @@ class ClientsState {
 }
 
 class ClientsNotifier extends StateNotifier<ClientsState> {
-  ClientsNotifier()
-    : super(
-        ClientsState(
-          clients: [
-            ClientModel('jhon doe', '635241789', 'jhon@email.com', ''),
-            ClientModel('jhon smith', '635241789', 'jhon@email.com', ''),
-            ClientModel('hamid sqali', '635241789', 'jhon@email.com', ''),
-            ClientModel('jhon doe', '635241789', 'jhon@email.com', ''),
-          ],
-          count: 4,
-        ),
-      );
+  ClientsNotifier() : super(ClientsState(clients: []));
 
-  addClient(ClientModel client) {
+  Future<void> loadClientsData() async {
+    final clients = await ClientDao.fetchAllClients();
+    state = state.copyWith(clients: clients, count: clients.length);
+  }
+
+  addClient(ClientModel client) async {
+    await ClientDao.addClient(client);
     state = state.copyWith(
       clients: [...state.clients, client],
       count: state.count + 1,
@@ -56,6 +52,10 @@ class ClientsNotifier extends StateNotifier<ClientsState> {
   // }
 }
 
-final clientsProvider = StateNotifierProvider<ClientsNotifier, ClientsState>(
-  (Ref ref) => ClientsNotifier(),
-);
+final clientsProvider = StateNotifierProvider<ClientsNotifier, ClientsState>((
+  Ref ref,
+) {
+  final clientNotifier = ClientsNotifier();
+  clientNotifier.loadClientsData();
+  return clientNotifier;
+});

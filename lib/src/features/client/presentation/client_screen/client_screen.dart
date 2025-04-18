@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:trbj/src/features/client/domain/client_form_data_provider.dart';
+import 'package:trbj/src/features/client/domain/client_provider.dart';
 import 'package:trbj/src/features/client/presentation/widgets/clients_data_table.dart';
 import 'package:trbj/src/features/home/presentation/widgets/text_widget.dart';
 import 'package:trbj/src/features/search/presentation/widgets/search_field.dart';

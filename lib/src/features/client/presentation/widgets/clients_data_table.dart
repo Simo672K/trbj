@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trbj/src/features/client/domain/client_form_data_provider.dart';
+import 'package:trbj/src/features/client/domain/client_provider.dart';
 import 'package:trbj/src/features/client/presentation/widgets/data_table_fallback_msg.dart';
 
 class ClientsDataTable extends ConsumerWidget {
@@ -81,7 +81,16 @@ class ClientsDataTable extends ConsumerWidget {
                     ),
                   ),
                   DataCell(Text(client.createdAt)),
-                  DataCell(Container()),
+                  DataCell(
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.delete_rounded, color: Colors.red),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               );
             }).toList(),

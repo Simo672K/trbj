@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trbj/src/features/client/domain/client_form_data_provider.dart';
+import 'package:trbj/src/features/client/domain/client_provider.dart';
 import 'package:trbj/src/features/home/presentation/widgets/home_overview_card.dart';
 import 'package:trbj/src/features/home/presentation/widgets/operation_record_card.dart';
 import 'package:trbj/src/features/home/presentation/widgets/section_title.dart';
