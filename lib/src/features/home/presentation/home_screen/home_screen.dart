@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trbj/src/features/client/domain/client_form_data_provider.dart';
 import 'package:trbj/src/features/home/presentation/widgets/home_overview_card.dart';
 import 'package:trbj/src/features/home/presentation/widgets/operation_record_card.dart';
 import 'package:trbj/src/features/home/presentation/widgets/section_title.dart';
@@ -6,11 +8,13 @@ import 'package:trbj/src/features/home/presentation/widgets/text_widget.dart';
 import 'package:trbj/src/features/home/presentation/widgets/transactions_record.dart';
 import 'package:trbj/src/theme/app_theme.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(clientsProvider);
+
     return SingleChildScrollView(
       child: SafeArea(
         child: Container(
@@ -57,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                     child: HomeOverviewCard(
                       primary: false,
                       title: "clientes total",
-                      data: "5",
+                      data: data.clients.length.toString(),
                       icon: Icons.business_rounded,
                     ),
                   ),

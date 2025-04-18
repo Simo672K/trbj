@@ -41,4 +41,12 @@ final ThemeData appTheme = ThemeData(
     labelTextStyle: WidgetStateProperty.all<TextStyle>(TextStyle(fontSize: 12)),
     height: 80,
   ),
+
+  /**
+   * DataTable theaming
+   * */
+  dataTableTheme: DataTableThemeData(
+    columnSpacing: 12,
+    dataTextStyle: TextStyle(fontSize: 12),
+  ),
 );

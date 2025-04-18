@@ -8,9 +8,9 @@ class ClientsDataTable extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final clients = ref.watch(clientsProvider);
+    final data = ref.watch(clientsProvider);
 
-    return clients.isEmpty
+    return data.count == 0
         ? DataTableFallbackMsg(
           msg: 'msgNo se encontró ningún cliente, comience a agregar uno nuevo',
         )
@@ -19,20 +19,73 @@ class ClientsDataTable extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              for (var client in clients)
-                Row(
+              _clientDataWidget(context, ref),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 2,
+                ),
+                child: Row(
                   children: [
-                    Text(client.name),
-                    SizedBox(width: 16),
-                    Text('+34${client.phoneNumber}'),
-                    SizedBox(width: 16),
-                    Text(client.email == '' ? '-' : client.email),
-                    SizedBox(width: 16),
-                    Text(client.createdAt == '' ? '-' : client.createdAt),
+                    IconButton(
+                      onPressed: null,
+                      icon: Icon(Icons.arrow_back_rounded, size: 14),
+                    ),
+                    Text(
+                      'Pagina: ${data.page}',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.arrow_forward_rounded, size: 14),
+                    ),
+
+                    // TODO: control the number of elements in a page ButtonDropdown.
                   ],
                 ),
+              ),
             ],
           ),
         );
+  }
+
+  Widget _clientDataWidget(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(clientsProvider);
+
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: Colors.grey[300]!)),
+      ),
+      child: DataTable(
+        columns: [
+          DataColumn(label: Text('NOMBRE')),
+          DataColumn(label: Text('TELEFONO')),
+          DataColumn(label: Text('EMAIL')),
+          DataColumn(label: Text('FECHA DE ALTA')),
+          DataColumn(label: Text('ACCIONES')),
+        ],
+        rows:
+            data.clients.map((client) {
+              return DataRow(
+                cells: [
+                  DataCell(Text(client.name)),
+                  DataCell(Text(client.phoneNumber)),
+                  DataCell(
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        client.email,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ),
+                  DataCell(Text(client.createdAt)),
+                  DataCell(Container()),
+                ],
+              );
+            }).toList(),
+      ),
+    );
   }
 }
