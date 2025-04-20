@@ -14,4 +14,11 @@ class ClientDao {
 
     return await db.insert('client', client.toMap());
   }
+
+  static Future<ClientModel> fetchClientBy(int id) async {
+    final db = await DbService.dbInstance.database;
+    final result = await db.query('client', where: 'id = $id');
+
+    return ClientModel.fromMap(result[0]);
+  }
 }

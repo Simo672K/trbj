@@ -40,7 +40,9 @@ class ClientsNotifier extends StateNotifier<ClientsState> {
   }
 
   addClient(ClientModel client) async {
-    await ClientDao.addClient(client);
+    int id = await ClientDao.addClient(client);
+
+    client = client.shallowCopyWithId(id);
     state = state.copyWith(
       clients: [...state.clients, client],
       count: state.count + 1,
@@ -52,10 +54,14 @@ class ClientsNotifier extends StateNotifier<ClientsState> {
   // }
 }
 
+final clientProvider = FutureProvider.family<ClientModel, int>(
+  (ref, id) async => await ClientDao.fetchClientBy(id),
+);
+
 final clientsProvider = StateNotifierProvider<ClientsNotifier, ClientsState>((
   Ref ref,
 ) {
-  final clientNotifier = ClientsNotifier();
-  clientNotifier.loadClientsData();
-  return clientNotifier;
+  final clientsNotifier = ClientsNotifier();
+  clientsNotifier.loadClientsData();
+  return clientsNotifier;
 });

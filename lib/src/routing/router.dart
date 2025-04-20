@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trbj/src/features/client/presentation/client_details_screen/client_details_screen.dart';
 import 'package:trbj/src/features/client/presentation/client_screen/client_screen.dart';
 import 'package:trbj/src/features/client/presentation/create_client_screen/create_client_screen.dart';
 import 'package:trbj/src/features/employee/presentation/employee_screen/employee_screen.dart';
@@ -49,8 +50,19 @@ final GoRouter appRouter = GoRouter(
       ],
     ),
     GoRoute(
-      path: '/create_client',
+      path: '/client/new',
       builder: (context, state) => CreateClientScreen(),
+    ),
+    GoRoute(
+      path: '/client/details/:clientId',
+      builder:
+          (context, state) => ClientDetailsScreen(
+            clientId: int.parse(state.pathParameters['clientId']!),
+          ),
     ),
   ],
 );
+
+GlobalKey<NavigatorState> getRootCtx() {
+  return _rootNavigatorKey;
+}

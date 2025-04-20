@@ -18,6 +18,19 @@ class ClientModel {
     return 'ClientModel(name: $name, phoneNumber: $phoneNumber, email: $email, createdAt: $createdAt)';
   }
 
+  ClientModel shallowCopyWithId(int id) {
+    final now = DateTime.now();
+    return ClientModel(
+      name,
+      phoneNumber,
+      email,
+      createdAt == ''
+          ? '${now.day.toString().padLeft(2, '0')}-${now.month.toString().padLeft(2, '0')}-${now.year}'
+          : createdAt,
+      id: id,
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,

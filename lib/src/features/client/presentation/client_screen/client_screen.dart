@@ -42,7 +42,7 @@ class ClientScreen extends StatelessWidget {
                   Spacer(),
                   FilledButton.icon(
                     onPressed: () {
-                      context.push('/create_client');
+                      context.push('/client/new');
                     },
                     style: FilledButton.styleFrom(
                       textStyle: TextStyle(fontSize: 14),

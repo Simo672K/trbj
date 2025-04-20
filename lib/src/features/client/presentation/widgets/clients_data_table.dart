@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:trbj/src/features/client/domain/client_provider.dart';
 import 'package:trbj/src/features/client/presentation/widgets/data_table_fallback_msg.dart';
 
@@ -59,8 +60,6 @@ class ClientsDataTable extends ConsumerWidget {
       child: DataTable(
         columns: [
           DataColumn(label: Text('NOMBRE')),
-          DataColumn(label: Text('TELEFONO')),
-          DataColumn(label: Text('EMAIL')),
           DataColumn(label: Text('FECHA DE ALTA')),
           DataColumn(label: Text('ACCIONES')),
         ],
@@ -69,24 +68,36 @@ class ClientsDataTable extends ConsumerWidget {
               return DataRow(
                 cells: [
                   DataCell(Text(client.name)),
-                  DataCell(Text(client.phoneNumber)),
-                  DataCell(
-                    SizedBox(
-                      width: 100,
-                      child: Text(
-                        client.email,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                  ),
                   DataCell(Text(client.createdAt)),
                   DataCell(
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         IconButton(
+                          onPressed: () {
+                            context.push('/client/details/${client.id}');
+                          },
+                          icon: Icon(
+                            Icons.remove_red_eye_rounded,
+                            color: Colors.grey,
+                            size: 18,
+                          ),
+                        ),
+                        IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.delete_rounded, color: Colors.red),
+                          icon: Icon(
+                            Icons.edit_outlined,
+                            color: Colors.indigo,
+                            size: 18,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.delete_rounded,
+                            color: Colors.red,
+                            size: 18,
+                          ),
                         ),
                       ],
                     ),
