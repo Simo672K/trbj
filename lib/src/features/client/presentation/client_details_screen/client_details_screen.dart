@@ -22,6 +22,7 @@ class ClientDetailsScreen extends ConsumerWidget {
           IconButton(onPressed: null, icon: Icon(Icons.call_outlined)),
         ],
       ),
+      // TODO: update and delete features
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),

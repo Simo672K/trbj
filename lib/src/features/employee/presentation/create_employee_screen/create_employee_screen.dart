@@ -1,72 +1,82 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trbj/src/features/client/domain/client_provider.dart';
-import 'package:trbj/src/features/client/domain/client_model.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:trbj/src/features/client/presentation/widgets/input_field.dart';
+import 'package:trbj/src/features/employee/presentation/widgets/choose_image_file.dart';
+import 'package:trbj/src/features/employee/presentation/widgets/doc_image_builder.dart';
 import 'package:trbj/src/features/home/presentation/widgets/section_title.dart';
 import 'package:trbj/src/features/home/presentation/widgets/text_widget.dart';
 import 'package:trbj/src/utils/validator.dart';
 
-class CreateClientScreen extends ConsumerWidget {
-  CreateClientScreen({super.key});
+enum EmployeeDocImage { dni, seguro, curso }
 
-  final _clientDataForm = GlobalKey<FormState>();
+class FormImages {
+  String? dniImage;
+  String? seguroImage;
+  String? cursoImage;
+
+  FormImages({this.dniImage, this.seguroImage, this.cursoImage});
+
+  String? getDocType(EmployeeDocImage docType) {
+    switch (docType) {
+      case EmployeeDocImage.curso:
+        return cursoImage;
+      case EmployeeDocImage.dni:
+        return dniImage;
+      case EmployeeDocImage.seguro:
+        return seguroImage;
+    }
+  }
+
+  FormImages copyWith({String? dni, String? curso, String? seguro}) {
+    return FormImages(
+      dniImage: dni ?? dniImage,
+      seguroImage: seguro ?? seguroImage,
+      cursoImage: curso ?? cursoImage,
+    );
+  }
+}
+
+final imageNotifier = ValueNotifier<FormImages>(FormImages());
+
+class CreateEmployeeScreen extends StatelessWidget {
+  CreateEmployeeScreen({super.key});
+
+  final _employeeFormKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-  VoidCallback _handelFormSubmit(BuildContext context, WidgetRef ref) {
-    return () {
-      if (_clientDataForm.currentState!.validate()) {
-        ClientModel clientModel = ClientModel(
-          _nameController.text,
-          _phoneNumberController.text,
-          _emailController.text,
-          '',
-        );
-        ref.read(clientsProvider.notifier).addClient(clientModel);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Client added successfully'),
-            behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 2),
-          ),
-        );
-        _clearForm();
-      }
-    };
-  }
-
-  _clearForm() {
-    _clientDataForm.currentState?.reset();
-    _nameController.clear();
-    _phoneNumberController.clear();
-    _emailController.clear();
+  _getImagePath(EmployeeDocImage docType) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    imageNotifier.value = imageNotifier.value.copyWith(
+      dni: docType == EmployeeDocImage.dni ? image!.path : null,
+      curso: docType == EmployeeDocImage.curso ? image!.path : null,
+      seguro: docType == EmployeeDocImage.seguro ? image!.path : null,
+    );
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        title: StyledScreenTitle('Anadir neuvo cliente'),
+        title: StyledScreenTitle('Anadir neuvo obrero'),
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: SingleChildScrollView(
-          child: SafeArea(
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             child: Form(
-              key: _clientDataForm,
-
+              key: _employeeFormKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SectionTitle(
                     icon: Icons.info_outline,
-                    title: "introducir datos del cliente",
+                    title: "introducir datos del obrero",
                   ),
                   SizedBox(height: 16),
-
                   StyledLabel('Nomber y appelido'),
                   SizedBox(height: 4),
                   InputField(
@@ -110,11 +120,48 @@ class CreateClientScreen extends ConsumerWidget {
                   ),
 
                   SizedBox(height: 16),
+
+                  StyledLabel('Seguro Social'),
+                  SizedBox(height: 4),
+
+                  // TODO: Seguro Social - Handle upload
+                  ChooseImageFile(
+                    callback: () async {
+                      await _getImagePath(EmployeeDocImage.seguro);
+                    },
+                  ),
+                  DocImageBuilder(docType: EmployeeDocImage.seguro),
+
+                  SizedBox(height: 16),
+
+                  StyledLabel('DNI/NIE'),
+                  SizedBox(height: 4),
+
+                  // TODO: DNI/NIE - Handle upload
+                  ChooseImageFile(
+                    callback: () async {
+                      await _getImagePath(EmployeeDocImage.dni);
+                    },
+                  ),
+                  DocImageBuilder(docType: EmployeeDocImage.dni),
+                  SizedBox(height: 16),
+
+                  StyledLabel('Curso'),
+                  SizedBox(height: 4),
+
+                  // TODO: Curso - handle upload
+                  ChooseImageFile(
+                    callback: () async {
+                      await _getImagePath(EmployeeDocImage.curso);
+                    },
+                  ),
+                  DocImageBuilder(docType: EmployeeDocImage.curso),
+                  SizedBox(height: 16),
                   Row(
                     children: [
                       Spacer(),
                       FilledButton.icon(
-                        onPressed: _clearForm,
+                        onPressed: null, //_clearForm,
                         style: FilledButton.styleFrom(
                           backgroundColor: Colors.redAccent,
                         ),
@@ -123,7 +170,7 @@ class CreateClientScreen extends ConsumerWidget {
                       ),
                       SizedBox(width: 4),
                       FilledButton.icon(
-                        onPressed: _handelFormSubmit(context, ref),
+                        onPressed: null, //_handelFormSubmit(context, ref),
                         style: FilledButton.styleFrom(
                           backgroundColor: Colors.green,
                         ),

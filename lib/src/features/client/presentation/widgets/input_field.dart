@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class InputField extends StatelessWidget {
   const InputField({
     super.key,
-    required this.controller,
+    this.controller,
     required this.placeholder,
     this.type,
     this.validatorRules,
   });
 
   final TextInputType? type;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String placeholder;
   final FormFieldValidator<String>? validatorRules;
 

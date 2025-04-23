@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:trbj/src/features/client/presentation/client_details_screen/client_details_screen.dart';
 import 'package:trbj/src/features/client/presentation/client_screen/client_screen.dart';
 import 'package:trbj/src/features/client/presentation/create_client_screen/create_client_screen.dart';
+import 'package:trbj/src/features/employee/presentation/create_employee_screen/create_employee_screen.dart';
 import 'package:trbj/src/features/employee/presentation/employee_screen/employee_screen.dart';
 import 'package:trbj/src/features/home/presentation/home_screen/home_screen.dart';
 import 'package:trbj/src/routing/navigation_bar/nav_bar.dart';
@@ -49,6 +50,9 @@ final GoRouter appRouter = GoRouter(
         ),
       ],
     ),
+    /**
+     * client related routes
+     * */
     GoRoute(
       path: '/client/new',
       builder: (context, state) => CreateClientScreen(),
@@ -59,6 +63,14 @@ final GoRouter appRouter = GoRouter(
           (context, state) => ClientDetailsScreen(
             clientId: int.parse(state.pathParameters['clientId']!),
           ),
+    ),
+
+    /**
+     * Employees related routes
+     * */
+    GoRoute(
+      path: '/employee/new',
+      builder: (context, state) => CreateEmployeeScreen(),
     ),
   ],
 );

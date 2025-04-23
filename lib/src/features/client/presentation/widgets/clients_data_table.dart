@@ -70,6 +70,7 @@ class ClientsDataTable extends ConsumerWidget {
                   DataCell(Text(client.name)),
                   DataCell(Text(client.createdAt)),
                   DataCell(
+                    // TODO: crud features for clients records.
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
